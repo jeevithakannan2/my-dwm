@@ -40,6 +40,7 @@
 #include <X11/extensions/Xinerama.h>
 #endif /* XINERAMA */
 #include <X11/Xft/Xft.h>
+#include <X11/XF86keysym.h>
 
 #include "drw.h"
 #include "util.h"
@@ -1903,8 +1904,8 @@ spawn(const Arg *arg)
 {
 	struct sigaction sa;
 
-//	if (arg->v == dmenucmd)
-//		dmenumon[0] = '0' + selmon->num;
+	if (arg->v == dmenucmd)
+		dmenumon[0] = '0' + selmon->num;
 	if (fork() == 0) {
 		if (dpy)
 			close(ConnectionNumber(dpy));
