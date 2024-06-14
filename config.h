@@ -66,6 +66,7 @@ static const Layout layouts[] = {
 
 static const char *const autostart[] = {
 	"dwmstatus", NULL,
+	"nm-applet", "--indicator", NULL,
 	NULL
 };
 
