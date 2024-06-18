@@ -12,8 +12,7 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 #define ICONSIZE 16   /* icon size */
 #define ICONSPACING 5 /* space between icon and title */
-static const char *fonts[]          = { "Noto Sans Nerd:size=14" };
-static const char dmenufont[]       = "Noto Sans Nerd:size=14";
+static const char *fonts[]          = { "Roboto:pixelsize=18", "Symbols Nerd Font:pixelsize=17" };
 
 static const char normbordercolor[]       = "#3B4252";
 static const char normbgcolor[]           = "#2E3440";
@@ -28,7 +27,7 @@ static const char *colors[][3]      = {
 	[SchemeSel] =  { selfgcolor,  selbgcolor,  selbordercolor },
 };
 /* tagging */
-static const char *tags[] = { " ", "󰊯 ", "3", "4", " ", "󰓇 " };
+static const char *tags[] = { "", "", "" , "", "", "󰓇" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -73,8 +72,8 @@ static const char *const autostart[] = {
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          SHCMD("rofi -show drun") },
-	{ MODKEY,			XK_x,	   spawn,	   SHCMD("kitty") },
-	{ MODKEY,			XK_b,	   spawn,          SHCMD("thorium-browser") },
+	{ MODKEY,                       XK_x,      spawn,          SHCMD("kitty") },
+	{ MODKEY,                       XK_b,      spawn,          SHCMD("thorium-browser") },
 	{ MODKEY,                       XK_F2,     togglebar,      {0} },
 	{ MODKEY,                       XK_Left,   focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_Right,  focusstack,     {.i = +1 } },
@@ -91,11 +90,11 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
-	{ 0, 				XF86XK_AudioMute,          spawn, SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle") },
-        { 0, 				XF86XK_AudioLowerVolume,   spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5%") },
-        { 0, 				XF86XK_AudioRaiseVolume,   spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%") },
+	{ 0,                            XF86XK_AudioMute,          spawn, SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle") },
+  { 0,                            XF86XK_AudioLowerVolume,   spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5%") },
+  { 0,                            XF86XK_AudioRaiseVolume,   spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%") },
 	{ 0,                            XF86XK_MonBrightnessDown,  spawn, SHCMD("brightnessctl set 5%-") },
-        { 0,                            XF86XK_MonBrightnessUp,    spawn, SHCMD("brightnessctl set 5%+") },
+  { 0,                            XF86XK_MonBrightnessUp,    spawn, SHCMD("brightnessctl set 5%+") },
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
@@ -108,7 +107,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_3,                      2)
 	TAGKEYS(                        XK_4,                      3)
 	TAGKEYS(                        XK_5,                      4)
-	TAGKEYS(                        XK_6,                      5) 
+	TAGKEYS(                        XK_6,                      5)
 };
 
 /* button definitions */
