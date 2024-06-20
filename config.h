@@ -53,7 +53,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -74,6 +74,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn,          SHCMD("rofi -show drun") },
 	{ MODKEY,                       XK_x,      spawn,          SHCMD("kitty") },
 	{ MODKEY,                       XK_b,      spawn,          SHCMD("thorium-browser") },
+	{ MODKEY,                       XK_e,      spawn,          SHCMD("thunar") },
 	{ MODKEY,                       XK_F2,     togglebar,      {0} },
 	{ MODKEY,                       XK_Left,   focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_Right,  focusstack,     {.i = +1 } },
