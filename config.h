@@ -66,7 +66,11 @@ static const Layout layouts[] = {
 static const char *const autostart[] = {
 	"dwmstatus", NULL,
 	"nm-applet", "--indicator", NULL,
-	NULL
+	"picom", "--animations", NULL,
+  "dunst", NULL,
+  "nitrogen", "--restore", NULL,
+  "aa-notify", "-p", NULL,
+  NULL
 };
 
 static const Key keys[] = {
