@@ -5,8 +5,7 @@ DOT_LOCATION="$HOME/dot-jeeva"
 gitclone() {
   echo "Cloning dot files into $DOT_LOCATION"
   if [ -d "$DOT_LOCATION" ]; then
-    read -n 1 -p "Remove all contents in $DOT_LOCATION [Y/N] [DEFAULT Y]: " confirm
-    echo
+    read -p "Remove all contents in $DOT_LOCATION [Y/N] [DEFAULT Y]: " confirm
     confirm=${confirm:-Y}
     if [ "$confirm" = "y" ] || [ "$confirm" = "Y" ]; then
       echo "Cleaning $DOT_LOCATION"
@@ -23,7 +22,8 @@ gitclone() {
 }
 
 install_dep() {
-  sudo pacman -Sy xorg-server libxinerama libxft imlib2 --needed
+  sudo pacman -Sy xorg-server libxinerama libxft imlib2 cmake libev\
+        xcb-util-image libconfig uthash xorg-xinit --needed
 }
 
 xinitrc() {
