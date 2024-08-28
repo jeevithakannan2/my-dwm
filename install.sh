@@ -19,6 +19,7 @@ gitclone() {
     mkdir -p "$DOT_LOCATION"
   fi
   git clone https://github.com/jeevithakannan2/my-dwm.git --depth 1 "$DOT_LOCATION/my-dwm"
+  git clone https://github.com/yshui/picom.git --depth 1 "$DOT_LOCATION/picom"
 }
 
 install_dep() {
@@ -43,6 +44,12 @@ install() {
 
   cd "$DOT_LOCATION/my-dwm/slstatus"
   sudo make clean install
+
+  cd "$DOT_LOCATION/picom"
+  meson setup --buildtype=release build
+  ninja -C build
+  sudo ninja -C build install
+
 }
 
 main() {
