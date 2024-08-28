@@ -12,7 +12,7 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 #define ICONSIZE 16   /* icon size */
 #define ICONSPACING 5 /* space between icon and title */
-static const char *fonts[]          = { "Roboto:pixelsize=18", "Symbols Nerd Font:pixelsize=17" };
+static const char *fonts[]          = { "Roboto:pixelsize=18", "Symbols Nerd Font:pixelsize=18", "NotoColorEmoji:pixelsize=16:antialias=true:autohint=true"};
 
 static const char normbordercolor[]       = "#3B4252";
 static const char normbgcolor[]           = "#2E3440";
@@ -106,6 +106,7 @@ static const Key keys[] = {
 	{ 0,                            XF86XK_MonBrightnessDown,  spawn, SHCMD("brightnessctl set 5%-") },
     { 0,                            XF86XK_MonBrightnessUp,    spawn, SHCMD("brightnessctl set 5%+") },
 	{ MODKEY|ShiftMask,             XK_q,      spawn,          SHCMD("$HOME/.config/rofi/powermenu.sh") },
+    { MODKEY|ControlMask,           XK_q,      quit,           {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },

@@ -21,11 +21,11 @@ gitclone() {
 }
 
 copy_configs() {
-  # Ensure the target directory exists
+  # Ensure the .config directory exists
   mkdir -p ~/.config
 
-  # Iterate over all directories in config/*
-  for dir in "$DWMDIR/configs"/*/; do
+  # Iterate over all directories in my-dwm/config/*
+  for dir in "$DWMDIR/my-dwm/configs/"*/; do
     # Extract the directory name
     dir_name=$(basename "$dir")
 
