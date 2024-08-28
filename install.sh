@@ -22,14 +22,12 @@ gitclone() {
 }
 
 install_dep() {
-  echo "Installing dependencies..."
   sudo pacman -Sy xorg-server libxinerama libxft imlib2 --needed
 }
 
 xinitrc() {
-  echo "Setting up .xinitrc"
   if [ -f "$HOME/.xinitrc" ]; then
-    mv -p "$HOME/.xinitrc" "$HOME/.xinitrc.bak"
+    mv "$HOME/.xinitrc" "$HOME/.xinitrc.bak"
   fi
 
   cat <<EOF > "$HOME/.xinitrc"
@@ -40,7 +38,6 @@ EOF
 }
 
 install() {
-  echo "Installing dwm and slstatus"
   cd "$DOT_LOCATION/my-dwm"
   sudo make clean install
 
