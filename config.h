@@ -66,7 +66,7 @@ static const Layout layouts[] = {
 static const char *const autostart[] = {
   "slstatus", NULL,
   "nm-applet", "--indicator", NULL,
-  "picom", "--animations", NULL,
+  "picom", NULL,
   "dunst", NULL,
   "nitrogen", "--restore", NULL,
   "aa-notify", "-p", NULL,
@@ -125,8 +125,18 @@ static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
-	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
+    /* placemouse options, choose which feels more natural:
+    *    0 - tiled position is relative to mouse cursor
+    *    1 - tiled postiion is relative to window center
+    *    2 - mouse pointer warps to window center
+    *
+    * The moveorplace uses movemouse or placemouse depending on the floating state
+    * of the selected client. Set up individual keybindings for the two if you want
+    * to control these separately (i.e. to retain the feature to move a tiled window
+    * into a floating position).
+    */
+    { ClkClientWin,         MODKEY,         Button1,        moveorplace,    {.i = 1} },
+    { ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
