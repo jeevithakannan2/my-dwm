@@ -1,12 +1,14 @@
+#!/bin/sh -e
+
 DOT_LOCATION="$HOME/dot-jeeva"
 
 gitclone() {
-  echo "Clone dot files into $DOT_LOCATION"
+  echo "Cloning dot files into $DOT_LOCATION"
   if [ -d "$DOT_LOCATION" ]; then
     read -n 1 -p "Remove all contents in $DOT_LOCATION [Y/N] [DEFAULT Y]: " confirm
     echo
     confirm=${confirm:-Y}
-    if [[ "$confirm" =~ [yY] ]]; then
+    if [ "$confirm" = "y" ] || [ "$confirm" = "Y" ]; then
       echo "Cleaning $DOT_LOCATION"
       cd "$DOT_LOCATION"
       rm -rf *
@@ -14,43 +16,68 @@ gitclone() {
       exit 1
     fi
   else
-    mkdir "$DOT_LOCATION"
+    mkdir -p "$DOT_LOCATION"
   fi
   git clone https://github.com/jeevithakannan2/my-dwm.git --depth 1 "$DOT_LOCATION/my-dwm"
 }
 
 install_dep() {
+  echo "Installing dependencies..."
   sudo pacman -Sy xorg-server libxinerama libxft imlib2 --needed
 }
 
+xinitrc() {
+  echo "Setting up .xinitrc"
+  if [ -f "$HOME/.xinitrc" ]; then
+    mv -p "$HOME/.xinitrc" "$HOME/.xinitrc.bak"
+  fi
+
+  cat <<EOF > "$HOME/.xinitrc"
+export XDG_SESSION_TYPE=x11
+
+exec dwm
+EOF
+}
+
 install() {
+  echo "Installing dwm and slstatus"
   cd "$DOT_LOCATION/my-dwm"
   sudo make clean install
+
   cd "$DOT_LOCATION/my-dwm/slstatus"
   sudo make clean install
 }
 
-if command -v pacman &>/dev/null; then
-  echo "Arch System !!!"
-  if command -v git &>/dev/null; then
-    echo "Git found in system"
-    gitclone
-    if [ $? -ne 0 ]; then
-      echo "Cloning failed !!"
+main() {
+  if command -v pacman &>/dev/null; then
+    echo "Arch System detected"
+    if command -v git &>/dev/null; then
+      echo "Git found in system"
+      gitclone
+    else
+      echo "Git not found in system, installing git"
+      sudo pacman -Syu git
+      gitclone
     fi
+
+    if [ $? -ne 0 ]; then
+      echo "Cloning failed!!"
+      exit 1
+    fi
+
+    echo "Installing dependencies for dwm and slstatus"
+    install_dep
+
+    echo "Setting up .xinitrc"
+    xinitrc
+
+    echo "Compiling and installing dwm and slstatus"
+    install
   else
-    echo "Git not found in system installing git"
-    sudo pacman -Syu git
-    gitclone
-    if [ $? -ne 0 ]; then
-      echo "Cloning failed !!"
-    fi
+    echo "Arch system not found"
+    exit 1
   fi
-  echo "Installing make dependencies for dwm and dwmstatus"
-  install_dep
-  echo "Compiling and installing dwm and dwmstatus"
-  install
-else
-  echo "Arch system not found"
-  exit 1
-fi
+}
+
+main
+
