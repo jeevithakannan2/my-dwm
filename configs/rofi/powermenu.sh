@@ -44,8 +44,7 @@ run_cmd() {
     systemctl suspend
     ;;
   --logout)
-    pkill slstatus
-    pkill dwl
+    pkill dwm
     ;;
   esac
 }
