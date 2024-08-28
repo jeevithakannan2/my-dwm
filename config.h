@@ -66,9 +66,9 @@ static const Layout layouts[] = {
 static const char *const autostart[] = {
   "slstatus", NULL,
   "nm-applet", "--indicator", NULL,
-  "picom", NULL,
+  "picom", "-b", NULL,
   "dunst", NULL,
-  "nitrogen", "--restore", NULL,
+  "sh", "-c", "feh --bg-fill ~/.local/share/wallpapers/nord/ign_chainsaw-man.png", NULL,
   "aa-notify", "-p", NULL,
   NULL
 };
