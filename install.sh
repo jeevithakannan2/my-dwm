@@ -43,7 +43,7 @@ copy_configs() {
 install_dep() {
   sudo pacman -Sy base-devel xorg-server libxinerama libxft imlib2 \
     cmake libev xcb-util-image libconfig uthash xorg-xinit meson \
-    xcb-util-renderutil wget --needed
+    xcb-util-renderutil unzip --needed
 }
 
 xinitrc() {
@@ -77,7 +77,8 @@ install_fonts() {
   for font in "$DWMDIR/fonts/"*; do
     folder="${font%.zip}" # Remove the .zip extension to create the folder name
     rm -rf "$HOME/.local/share/fonts/$folder"
-    7z x "$font" -o"$HOME/.local/share/fonts/$folder"
+    mkdir -p "$HOME/.local/share/fonts/$folder"
+    unzip "$font" -d "$HOME/.local/share/fonts/$folder"
   done
 }
 
