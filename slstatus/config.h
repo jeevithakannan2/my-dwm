@@ -69,7 +69,7 @@ static const struct arg args[] = {
     /* function format          argument */
 //    {cpu_perc, "    %s", NULL},
 //    {idle_inhibator, "%s", NULL},
-    {ram_used, "    %s  (", NULL},
+    {ram_used, "  %s  (", NULL},
     {ram_perc, "%s%%)  |", NULL},
     {vol_perc, "  %s  |", NULL},
     {backlight_perc, "  󰃠  %s  |", "intel_backlight"},

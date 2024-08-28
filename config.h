@@ -105,7 +105,7 @@ static const Key keys[] = {
     { 0,                            XF86XK_AudioRaiseVolume,   spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%") },
 	{ 0,                            XF86XK_MonBrightnessDown,  spawn, SHCMD("brightnessctl set 5%-") },
     { 0,                            XF86XK_MonBrightnessUp,    spawn, SHCMD("brightnessctl set 5%+") },
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_q,      spawn,          SHCMD("$HOME/.config/rofi/powermenu.sh") },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },

@@ -1,29 +1,48 @@
 #!/bin/sh -e
 
-DOT_LOCATION="$HOME/dot-jeeva"
+DWMDIR="$HOME/dot-jeeva"
 
 gitclone() {
-  echo "Cloning dot files into $DOT_LOCATION"
-  if [ -d "$DOT_LOCATION" ]; then
-    read -p "Remove all contents in $DOT_LOCATION [Y/N] [DEFAULT Y]: " confirm
+  echo "Cloning dot files into $DWMDIR"
+  if [ -d "$DWMDIR" ]; then
+    read -p "Found existing $DWMDIR, Remove $DWMDIR [Y/N] [DEFAULT Y]: " confirm
     confirm=${confirm:-Y}
-    if [ "$confirm" = "y" ] || [ "$confirm" = "Y" ]; then
-      echo "Cleaning $DOT_LOCATION"
-      cd "$DOT_LOCATION"
-      rm -rf *
+    if [ "$confirm" = "Y" ] || [ "$confirm" = "y" ]; then
+      echo "Removing $DWMDIR"
+      rm -rf "$DWMDIR"
     else
       exit 1
     fi
   else
-    mkdir -p "$DOT_LOCATION"
+    mkdir -p "$DWMDIR"
   fi
-  git clone https://github.com/jeevithakannan2/my-dwm.git --depth 1 "$DOT_LOCATION/my-dwm"
-  git clone https://github.com/yshui/picom.git --depth 1 "$DOT_LOCATION/picom"
+  git clone https://github.com/jeevithakannan2/my-dwm.git --depth 1 "$DWMDIR/my-dwm"
+  git clone https://github.com/yshui/picom.git --depth 1 "$DWMDIR/picom"
+}
+
+copy_configs() {
+  # Ensure the target directory exists
+  mkdir -p ~/.config
+
+  # Iterate over all directories in config/*
+  for dir in "$DWMDIR/configs"/*/; do
+    # Extract the directory name
+    dir_name=$(basename "$dir")
+
+    # Clone the directory to ~/.config/
+    if [ -d "$dir" ]; then
+      cp -r "$dir" ~/.config/
+      echo "Cloned $dir_name to ~/.config/"
+    else
+      echo "Directory $dir_name does not exist, skipping"
+    fi
+  done
 }
 
 install_dep() {
-  sudo pacman -Sy xorg-server libxinerama libxft imlib2 cmake libev\
-        xcb-util-image libconfig uthash xorg-xinit --needed
+  sudo pacman -Sy base-devel xorg-server libxinerama libxft imlib2 \
+    cmake libev xcb-util-image libconfig uthash xorg-xinit meson \
+    xcb-util-renderutil --needed
 }
 
 xinitrc() {
@@ -31,7 +50,7 @@ xinitrc() {
     mv "$HOME/.xinitrc" "$HOME/.xinitrc.bak"
   fi
 
-  cat <<EOF > "$HOME/.xinitrc"
+  cat <<EOF >"$HOME/.xinitrc"
 export XDG_SESSION_TYPE=x11
 
 exec dwm
@@ -39,17 +58,16 @@ EOF
 }
 
 install() {
-  cd "$DOT_LOCATION/my-dwm"
+  cd "$DWMDIR/my-dwm" || exit
   sudo make clean install
 
-  cd "$DOT_LOCATION/my-dwm/slstatus"
+  cd "$DWMDIR/my-dwm/slstatus" || exit
   sudo make clean install
 
-  cd "$DOT_LOCATION/picom"
+  cd "$DWMDIR/picom" || exit
   meson setup --buildtype=release build
   ninja -C build
   sudo ninja -C build install
-
 }
 
 main() {
@@ -64,11 +82,6 @@ main() {
       gitclone
     fi
 
-    if [ $? -ne 0 ]; then
-      echo "Cloning failed!!"
-      exit 1
-    fi
-
     echo "Installing dependencies for dwm and slstatus"
     install_dep
 
@@ -77,6 +90,10 @@ main() {
 
     echo "Compiling and installing dwm and slstatus"
     install
+
+    echo "Copying configs"
+    copy_configs
+
   else
     echo "Arch system not found"
     exit 1
@@ -84,4 +101,3 @@ main() {
 }
 
 main
-
