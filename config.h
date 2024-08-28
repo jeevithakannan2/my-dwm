@@ -64,6 +64,7 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 static const char *const autostart[] = {
+  "dbus-update-activation-environment", "--all", NULL,
   "slstatus", NULL,
   "nm-applet", "--indicator", NULL,
   "picom", "-b", NULL,
