@@ -69,13 +69,13 @@ static const struct arg args[] = {
     /* function format          argument */
 //    {cpu_perc, "    %s", NULL},
 //    {idle_inhibator, "%s", NULL},
-    {ram_used, "  %s  (", NULL},
-    {ram_perc, "%s%%)  |", NULL},
-    {vol_perc, "  %s  |", NULL},
-    {backlight_perc, "  󰃠  %s  |", "intel_backlight"},
-    {battery_state, "  %s 󰁹", "BAT1"},
-    {battery_perc, "  %s%%  |", "BAT1"},
-    {datetime, "    %s |", "%a %d-%m-%Y"},
-    {datetime, "    %s |", "%I:%M %p"},
+    {ram_used, " %s (", NULL},
+    {ram_perc, "%s%%) |", NULL},
+    {vol_perc, " %s |", NULL},
+    {backlight_perc, " 󰃠 %s |", "intel_backlight"},
+    {battery_state, " %s 󰁹", "BAT1"},
+    {battery_perc, " %s%% |", "BAT1"},
+    {datetime, "  %s |", "%a %d-%m-%Y"},
+    {datetime, "  %s |", "%I:%M %p"},
 
 };

@@ -12,7 +12,7 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 #define ICONSIZE 16   /* icon size */
 #define ICONSPACING 5 /* space between icon and title */
-static const char *fonts[]          = { "Roboto:pixelsize=18", "Symbols Nerd Font:pixelsize=18", "NotoColorEmoji:pixelsize=16:antialias=true:autohint=true"};
+static const char *fonts[]          = { "Noto Sans:pixelsize=18", "Symbols Nerd Font:pixelsize=18", "NotoColorEmoji:pixelsize=16:antialias=true:autohint=true"};
 
 static const char normbordercolor[]       = "#3B4252";
 static const char normbgcolor[]           = "#2E3440";

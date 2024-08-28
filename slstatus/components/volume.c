@@ -20,7 +20,7 @@ vol_perc(const char *unused)
 
     if (!strncmp(mute, "yes", 3)) {
         // If muted, return 0% volume
-        return bprintf("  0%%");
+        return bprintf(" 0%%");
     } else {
         // Get the current volume level
         fp = popen("pactl get-sink-volume @DEFAULT_SINK@", "r");
@@ -28,6 +28,6 @@ vol_perc(const char *unused)
         sscanf(line, "Volume: front-left: %*d /  %hd", &b);
         pclose(fp);
         // Return the formatted volume level
-        return bprintf("  %d%%", b);
+        return bprintf(" %d%%", b);
     }
 }
