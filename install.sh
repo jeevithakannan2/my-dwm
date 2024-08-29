@@ -43,7 +43,7 @@ copy_configs() {
 install_dep() {
   sudo pacman -Sy base-devel xorg-server libxinerama libxft imlib2 \
     cmake libev xcb-util-image libconfig uthash xorg-xinit meson \
-    xcb-util-renderutil unzip --needed
+    xcb-util-renderutil unzip --needed --noconfirm
 }
 
 xinitrc() {
@@ -85,12 +85,14 @@ install_fonts() {
 main() {
   if command -v pacman &>/dev/null; then
     echo "Arch System detected"
+    sudo pacman -Syu --noconfirm
+
     if command -v git &>/dev/null; then
       echo "Git found in system"
       gitclone
     else
       echo "Git not found in system, installing git"
-      sudo pacman -Syu git
+      sudo pacman -S git --noconfirm
       gitclone
     fi
 
