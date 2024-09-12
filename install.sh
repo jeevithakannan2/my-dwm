@@ -43,7 +43,7 @@ copy_configs() {
 install_dep() {
   sudo pacman -Sy base-devel xorg-server libxinerama libxft imlib2 \
     cmake libev xcb-util-image libconfig uthash xorg-xinit meson \
-    xcb-util-renderutil unzip --needed --noconfirm
+    xcb-util-renderutil unzip feh alacritty rofi --needed --noconfirm
 }
 
 xinitrc() {
