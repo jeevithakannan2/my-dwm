@@ -23,7 +23,7 @@ gitclone() {
 
 copy_configs() {
   # Ensure the .config directory exists
-  mkdir -p ~/.config
+  mkdir -p "$HOME/.config"
 
   # Iterate over all directories in my-dwm/config/*
   for dir in "$DWMDIR/configs/"*/; do
@@ -32,7 +32,7 @@ copy_configs() {
 
     # Clone the directory to ~/.config/
     if [ -d "$dir" ]; then
-      cp -r "$dir" ~/.config/
+      cp -r "$dir" "$HOME/config/"
       echo "Cloned $dir_name to ~/.config/"
     else
       echo "Directory $dir_name does not exist, skipping"
@@ -43,7 +43,7 @@ copy_configs() {
 install_dep() {
   sudo pacman -Sy base-devel xorg-server libxinerama libxft imlib2 \
     cmake libev xcb-util-image libconfig uthash xorg-xinit meson \
-    xcb-util-renderutil unzip feh alacritty rofi --needed --noconfirm
+    xcb-util-renderutil unzip polkit mate-polkit feh alacritty rofi --needed --noconfirm
 }
 
 xinitrc() {
@@ -74,8 +74,10 @@ install() {
 install_fonts() {
   mkdir -p "$HOME/.local/share/fonts"
   cd "$DWMDIR/fonts"
+  wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"
   for font in "$DWMDIR/fonts/"*; do
-    folder="${font%.zip}" # Remove the .zip extension to create the folder name
+    dir_name=$(basename "$font")
+    folder="${dir_name%.zip}" # Remove the .zip extension to create the folder name
     rm -rf "$HOME/.local/share/fonts/$folder"
     mkdir -p "$HOME/.local/share/fonts/$folder"
     unzip "$font" -d "$HOME/.local/share/fonts/$folder"

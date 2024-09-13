@@ -64,13 +64,13 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 static const char *const autostart[] = {
-  "dbus-update-activation-environment", "--all", NULL,
+  "dbus-update-activation-environment", "--systemd", "--all", NULL,
+  "/usr/lib/mate-polkit/polkit-mate-authentication-agent-1", NULL,
   "slstatus", NULL,
   "nm-applet", "--indicator", NULL,
   "picom", "-b", NULL,
   "dunst", NULL,
-  "sh", "-c", "feh --bg-fill ~/.local/share/wallpapers/nord/ign_chainsaw-man.png", NULL,
-  "aa-notify", "-p", NULL,
+  "sh", "-c", "feh --randomize --bg-fill ~/.local/share/wallpapers/nord/*", NULL,
   NULL
 };
 
