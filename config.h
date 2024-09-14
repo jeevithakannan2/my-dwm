@@ -70,6 +70,7 @@ static const char *const autostart[] = {
   "nm-applet", "--indicator", NULL,
   "picom", "-b", NULL,
   "dunst", NULL,
+ // "sh", "-c", "xidlehook --detect-sleep --not-when-audio --not-when-fullscreen --timer 900 'slock' ''", NULL, // Create a service instead of autostarting with dwm
   "sh", "-c", "feh --randomize --bg-fill ~/.local/share/wallpapers/nord/*", NULL,
   NULL
 };

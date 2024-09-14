@@ -41,7 +41,7 @@ copy_configs() {
 }
 
 install_dep() {
-  sudo pacman -Sy base-devel xorg-server libxinerama libxft imlib2 \
+  sudo pacman -S base-devel xorg-server libxinerama libxft imlib2 \
     cmake libev xcb-util-image libconfig uthash xorg-xinit meson \
     xcb-util-renderutil unzip polkit mate-polkit feh alacritty rofi --needed --noconfirm
 }
@@ -59,13 +59,16 @@ EOF
 }
 
 install() {
-  cd "$DWMDIR" || exit
+  cd "$DWMDIR" || exit 1
   sudo make clean install
 
-  cd "$DWMDIR/slstatus" || exit
+  cd "$DWMDIR/slstatus" || exit 1
   sudo make clean install
 
-  cd "$DOTDIR/picom" || exit
+  cd "$DWMDIR/slock" || exit 1
+  sudo make clean install
+
+  cd "$DOTDIR/picom" || exit 1
   meson setup --buildtype=release build
   ninja -C build
   sudo ninja -C build install
@@ -112,6 +115,8 @@ main() {
 
     echo "Copying configs"
     copy_configs
+
+    echo "Install xidlehook with windrawnwin from https://github.com/realSaltyFish/xidlehook"
 
   else
     echo "Arch system not found"
