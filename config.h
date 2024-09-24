@@ -64,7 +64,7 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 static const char *const autostart[] = {
-  "dbus-update-activation-environment", "--systemd", "--all", NULL,
+  "dbus-update-activation-environment", "--systemd", "DISPLAY", NULL,
   "/usr/lib/mate-polkit/polkit-mate-authentication-agent-1", NULL,
   "slstatus", NULL,
   "nm-applet", "--indicator", NULL,
@@ -81,7 +81,7 @@ static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          SHCMD("rofi -show drun") },
 	{ MODKEY,                       XK_x,      spawn,          SHCMD("alacritty") },
-	{ MODKEY,                       XK_b,      spawn,          SHCMD("google-chrome-stable") },
+	{ MODKEY,                       XK_b,      spawn,          SHCMD("xdg-open http:") },
 	{ MODKEY,                       XK_e,      spawn,          SHCMD("thunar") },
 	{ MODKEY,                       XK_F2,     togglebar,      {0} },
 	{ MODKEY,                       XK_Left,   focusstack,     {.i = -1 } },
