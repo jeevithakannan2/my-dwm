@@ -8,30 +8,52 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int vertpad            = 4;       /* vertical padding of bar */
 static const int sidepad            = 4;       /* horizontal padding of bar */
+static const unsigned int colorfultitle  = 1;  /* 0 means title use SchemeTitle and SchemeTitleFloat */
+static const unsigned int colorfultag    = 1;  /* 0 means use SchemeSel for selected tag */
 #define ICONSIZE 16   /* icon size */
 #define ICONSPACING 5 /* space between icon and title */
 static const char *fonts[]          = { "Noto Sans:pixelsize=18", "Symbols Nerd Font:pixelsize=18", "NotoColorEmoji:pixelsize=16:antialias=true:autohint=true"};
 
-static const char normbordercolor[]       = "#3B4252";
-static const char normbgcolor[]           = "#1E1D2D";
-static const char normfgcolor[]           = "#D8DEE9";
-static const char selbordercolor[]        = "#1E1D2D";
-static const char selbgcolor[]            = "#1E1D2D";
-static const char selfgcolor[]            = "#ECEFF4";
+static const char black[]       = "#1E1D2D";
+static const char gray2[]       = "#282737"; // unfocused window border
+static const char gray3[]       = "#585767";
+static const char gray4[]       = "#282737";
+static const char blue[]        = "#96CDFB";  // focused window border
+static const char green[]       = "#a6e3a1";
+static const char red[]         = "#f38ba8";
+static const char yellow[]      = "#FAE3B0";
+static const char rosewater[]   = "#f5e0dc";
+static const char lavender[]    = "#b4befe";
+static const char col_borderbar[]  = "#1E1D2D"; // inner border
+static const char white[] = "#f8f8f2";
 
 static const char *colors[][3]      = {
-	/*               fg           bg           border   */
-	[SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
-	[SchemeSel] =  { selfgcolor,  selbgcolor,  selbordercolor },
+	/*                       fg           bg           border   */
+	[SchemeNorm]       = { gray3,   black,  gray2 },
+    [SchemeSel]        = { gray4,   blue,   blue  },
+    [SchemeTitle]      = { white,   black,  black }, // active window title
+    [TabSel]           = { blue,    gray2,  black },
+    [TabNorm]          = { gray3,   black,  black },
+    [SchemeTag]        = { gray3,   black,  black },
+    [SchemeTag1]       = { red,    black,  black },
+    [SchemeTag2]       = { yellow,  black,  black },
+    [SchemeTag3]       = { blue,     black,  black },
+    [SchemeTag4]       = { white,   black,  black },
+    [SchemeTag5]       = { lavender,    black,  black },
+	[SchemeTag6]       = { green,    black,  black },
+    [SchemeLayout]     = { rosewater,   black,  black },
 };
 /* tagging */
-static const char *tags[] = { "", "", "", "", "", "󰓇" };
+static const char *tags[] = { "", "", "󰈹", "", "", "󰓇" };
 
 static const unsigned int ulinepad	= 5;	/* horizontal padding between the underline and tag */
 static const unsigned int ulinestroke	= 2;	/* thickness / height of the underline */
 static const unsigned int ulinevoffset	= 0;	/* how far above the bottom of the bar the line should appear */
 static const int ulineall 		= 0;	/* 1 to show underline on all tags, 0 for just the active ones */
 
+static const int tagschemes[] = { 
+	SchemeTag1, SchemeTag2, SchemeTag3, SchemeTag4, SchemeTag5, SchemeTag6
+};
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -74,7 +96,7 @@ static const char *const autostart[] = {
   "dunst", NULL,
  // "sh", "-c", "xidlehook --detect-sleep --not-when-audio --not-when-fullscreen --timer 900 'slock' ''", NULL, // Create a service instead of autostarting with dwm
   "sh", "-c", "~/.config/bar.sh", NULL,
-  "sh", "-c", "feh --randomize --bg-fill ~/.local/share/wallpapers/nord/*", NULL,
+  "sh", "-c", "feh --bg-fill ~/.wallpaper.png", NULL,
   NULL
 };
 
@@ -104,6 +126,7 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
     { MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
+	{ MODKEY|ShiftMask,             XK_n,      togglecolorfultag,   {0} },
 	{ 0,                            XF86XK_AudioMute,          spawn, SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle") },
     { 0,                            XF86XK_AudioLowerVolume,   spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5%") },
     { 0,                            XF86XK_AudioRaiseVolume,   spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%") },
