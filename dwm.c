@@ -178,6 +178,8 @@ static void configure(Client *c);
 static void configurenotify(XEvent *e);
 static void configurerequest(XEvent *e);
 static Monitor *createmon(void);
+static void cycleview(const Arg *arg);
+static void cycleviewreverse(const Arg *arg);
 static void destroynotify(XEvent *e);
 static void detach(Client *c);
 static void detachstack(Client *c);
@@ -722,6 +724,24 @@ createmon(void)
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
 	return m;
+}
+
+void
+cycleview(const Arg *arg)
+{
+    unsigned int seltag = selmon->tagset[selmon->seltags];
+    unsigned int newtag = (seltag << 1) | (seltag >> (LENGTH(tags) - 1));
+    Arg newarg = {.ui = newtag & TAGMASK};
+    view(&newarg);
+}
+
+static void
+cycleviewreverse(const Arg *arg)
+{
+    unsigned int seltag = selmon->tagset[selmon->seltags];
+    unsigned int newtag = (seltag >> 1) | (seltag << (LENGTH(tags) - 1));
+    Arg newarg = {.ui = newtag & TAGMASK};
+    view(&newarg);
 }
 
 void
@@ -2583,13 +2603,15 @@ updatewmhints(Client *c)
 void
 view(const Arg *arg)
 {
-	if ((arg->ui & TAGMASK) == selmon->tagset[selmon->seltags])
-		return;
-	selmon->seltags ^= 1; /* toggle sel tagset */
-	if (arg->ui & TAGMASK)
-		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
-	focus(NULL);
-	arrange(selmon);
+    unsigned int newtagset = selmon->tagset[selmon->seltags ^ 1];
+    if (arg->ui & TAGMASK)
+        newtagset = arg->ui & TAGMASK;
+    if (newtagset != selmon->tagset[selmon->seltags]) {
+        selmon->seltags ^= 1; /* toggle sel tagset */
+        selmon->tagset[selmon->seltags] = newtagset;
+        focus(NULL);
+        arrange(selmon);
+    }
 }
 
 Client *
