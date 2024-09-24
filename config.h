@@ -2,12 +2,13 @@
 
 /* appearance */
 static const unsigned int borderpx  = 0;        /* border pixel of windows */
-static const Gap default_gap        = {.isgap = 1, .realgap = 4, .gappx = 4};
+static const Gap default_gap        = {.isgap = 1, .realgap = 6, .gappx = 6};
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const int vertpad            = 4;       /* vertical padding of bar */
-static const int sidepad            = 4;       /* horizontal padding of bar */
+static const int user_bh            = 34;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
+static const int vertpad            = 6;       /* vertical padding of bar */
+static const int sidepad            = 6;       /* horizontal padding of bar */
 static const unsigned int colorfultitle  = 1;  /* 0 means title use SchemeTitle and SchemeTitleFloat */
 static const unsigned int colorfultag    = 1;  /* 0 means use SchemeSel for selected tag */
 #define ICONSIZE 16   /* icon size */
