@@ -12,6 +12,7 @@ grey=#282737
 blue=#96CDFB
 red=#F28FAD
 darkblue=#83bae8
+yellow=#fae3b0
 
 cpu() {
   cpu_val=$(grep -o "^[^ ]*" /proc/loadavg)
@@ -33,12 +34,20 @@ pkg_updates() {
 
 battery() {
   get_capacity="$(cat /sys/class/power_supply/BAT1/capacity)"
-  printf "^c$blue^   $get_capacity"
+  if [ "$get_capacity" -le 30 ]; then
+    printf "^c$red^   $get_capacity"
+  else 
+    if [ "get_capacity" -le 60 ]; then
+      printf "^c$yellow^   $get_capacity"
+    else
+      printf "^c$green^   $get_capacity"
+    fi
+  fi
 }
 
 brightness() {
-  printf "^c$red^   "
-  printf "^c$red^%.0f\n" $(cat /sys/class/backlight/*/brightness)
+  printf "^c$yellow^   "
+  printf "^c$yellow^%.0f\n" $(cat /sys/class/backlight/*/brightness)
 }
 
 mem() {
@@ -48,12 +57,18 @@ mem() {
 
 wlan() {
 	case "$(cat /sys/class/net/wl*/operstate 2>/dev/null)" in
-	  up) 
-      ssid=$(iwgetid -r)
-      printf "^c$black^ ^b$blue^ 󰤨 ^d^%s" " ^c$blue^$ssid"
-      ;;
+	  up) ssid=$(iw dev | grep ssid | cut -d ' ' -f2) && printf "^c$black^ ^b$blue^ 󰤨 ^d^%s" " ^c$blue^$ssid" ;;
 	  down) printf "^c$black^ ^b$blue^ 󰤭 ^d^%s" " ^c$blue^Disconnected" ;;
 	esac
+}
+
+network() {
+  networks=$(ip route | grep default | cut -d ' ' -f5)
+  case "$networks" in
+    en*) ifname=$(echo $networks | tr ' ' '\n' | grep 'en') && printf "^c$black^ ^b$blue^ 󰌗 ^d^%s" " ^c$blue^$ifname" ;;
+    wl*) ssid=$(iw dev | grep ssid | cut -d ' ' -f2) && printf "^c$black^ ^b$blue^ 󰤨 ^d^%s" " ^c$blue^$ssid" ;;
+    *) printf "^c$black^ ^b$blue^  ^d^%s" " ^c$blue^Disconnected" ;;
+  esac
 }
 
 clock() {
@@ -61,14 +76,19 @@ clock() {
 	printf "^c$black^^b$blue^ $(date '+%H:%M')  "
 }
 
+clock1() {
+	printf "^c$black^ ^b$darkblue^ 󱑆 "
+	printf "^c$blue^^b$black^ $(date '+%H:%M') "
+}
+
 sound() {
   case "$(pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}')" in
     no)
       volume=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}')
-      printf "%b" "^c$red^  $volume"
+      printf "%b" "^c$blue^  $volume"
       ;;
     yes)
-      printf "%b" "^c$red^  0%"
+      printf "%b" "^c$blue^  0%"
       ;;
   esac
 }
@@ -78,5 +98,5 @@ while true; do
   [ $interval = 0 ] || [ $(($interval % 3600)) = 0 ] && updates=$(pkg_updates)
   interval=$((interval + 1))
 
-  sleep 1 && xsetroot -name "      $updates $(battery) $(brightness) $(cpu) $(mem) $(sound) $(wlan) $(clock)"
+  sleep 1 && xsetroot -name "      $updates $(battery) $(brightness) $(cpu) $(mem) $(sound) $(network) $(clock1)"
 done
