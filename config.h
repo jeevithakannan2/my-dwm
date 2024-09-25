@@ -4,6 +4,11 @@
 static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const Gap default_gap        = {.isgap = 1, .realgap = 6, .gappx = 6};
 static const unsigned int snap      = 32;       /* snap pixel */
+static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+static const unsigned int systrayonleft  = 0;   /* 0: systray in the right corner, >0: systray on left of status text */
+static const unsigned int systrayspacing = 2;   /* systray spacing */
+static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
+static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int user_bh            = 34;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
@@ -45,7 +50,7 @@ static const char *colors[][3]      = {
     [SchemeLayout]     = { rosewater,   black,  black },
 };
 /* tagging */
-static const char *tags[] = { "", "", "󰈹", "", "", "󰓇" };
+static const char *tags[] = { "", "", "", "", "", "󰓇" };
 
 static const unsigned int ulinepad	= 5;	/* horizontal padding between the underline and tag */
 static const unsigned int ulinestroke	= 2;	/* thickness / height of the underline */
@@ -96,7 +101,6 @@ static const char *const autostart[] = {
   "picom", "-b", NULL,
   "dunst", NULL,
  // "sh", "-c", "xidlehook --detect-sleep --not-when-audio --not-when-fullscreen --timer 900 'slock' ''", NULL, // Create a service instead of autostarting with dwm
-  "sh", "-c", "~/.config/bar.sh", NULL,
   "sh", "-c", "feh --bg-fill ~/.wallpaper.png", NULL,
   NULL
 };
